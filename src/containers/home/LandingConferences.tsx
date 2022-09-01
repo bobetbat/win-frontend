@@ -23,7 +23,7 @@ const conferences: ItemProps[] = [
     name: 'DappCon22',
     location: 'Berlin',
     image: dappcon22,
-    url: '/search?roomCount=1&adultCount=2&startDate=2022-09-12T00%3A00%3A00%2B02%3A00&endDate=2022-09-14T00%3A00%3A00%2B02%3A00&location=berlin',
+    url: '/search?roomCount=1&adultCount=2&arrival=2022-09-12T00%3A00%3A00%2B02%3A00&departure=2022-09-14T00%3A00%3A00%2B02%3A00&location=berlin',
     conferenceUrl: 'https://www.dappcon.io/',
     date: '12-14  September'
     // latlon: [52.5170365, 13.3888599],
@@ -32,7 +32,7 @@ const conferences: ItemProps[] = [
     name: 'Blockchain Expo Europe 2022',
     location: 'Amsterdam',
     image: blockchaineurope2022,
-    url: '/search?roomCount=1&adultCount=2&startDate=2022-09-20T00%3A00%3A00%2B02%3A00&endDate=2022-09-21T00%3A00%3A00%2B02%3A00&location=amsterdam',
+    url: '/search?roomCount=1&adultCount=2&arrival=2022-09-20T00%3A00%3A00%2B02%3A00&departure=2022-09-21T00%3A00%3A00%2B02%3A00&location=amsterdam',
     conferenceUrl: 'https://blockchain-expo.com/europe/',
     date: '20-21  September'
     // latlon: [52.5170365, 13.3888599],
@@ -42,7 +42,7 @@ const conferences: ItemProps[] = [
     location: 'Bogotá',
     image: devcon6,
     conferenceUrl: 'https://devcon.org',
-    url: '/search?roomCount=1&adultCount=2&startDate=2022-10-07T00%3A00%3A00%2B02%3A00&endDate=2022-10-16T00%3A00%3A00%2B02%3A00&location=Bogota',
+    url: '/search?roomCount=1&adultCount=2&arrival=2022-10-07T00%3A00%3A00%2B02%3A00&departure=2022-10-16T00%3A00%3A00%2B02%3A00&location=Bogota',
     date: '7-16  October'
     // latlon: [4.6534649, -74.0836453],
   },
@@ -51,7 +51,7 @@ const conferences: ItemProps[] = [
     location: 'Sydney',
     image: ethdownunder,
     conferenceUrl: 'https://ethdownunder.com/',
-    url: '/search?roomCount=1&adultCount=2&startDate=2022-12-01T00%3A00%3A00%2B01%3A00&endDate=2022-12-04T00%3A00%3A00%2B01%3A00&location=Sydney',
+    url: '/search?roomCount=1&adultCount=2&arrival=2022-12-01T00%3A00%3A00%2B01%3A00&departure=2022-12-04T00%3A00%3A00%2B01%3A00&location=Sydney',
     date: '1-4  December'
     // latlon: [-33.8698439, 151.208284],
   } /*

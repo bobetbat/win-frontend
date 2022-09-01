@@ -3225,8 +3225,8 @@
               "fees": [
                 {
                   "dateRange": {
-                    "startDate": "2022-07-28",
-                    "endDate": "2022-07-28"
+                    "arrival": "2022-07-28",
+                    "departure": "2022-07-28"
                   },
                   "fee": {
                     "name": "City Tax",
@@ -3238,8 +3238,8 @@
                 },
                 {
                   "dateRange": {
-                    "startDate": "2022-07-28",
-                    "endDate": "2022-07-28"
+                    "arrival": "2022-07-28",
+                    "departure": "2022-07-28"
                   },
                   "fee": {
                     "name": "Occupancy Tax",
@@ -3294,8 +3294,8 @@
               "fees": [
                 {
                   "dateRange": {
-                    "startDate": "2022-07-28",
-                    "endDate": "2022-07-28"
+                    "arrival": "2022-07-28",
+                    "departure": "2022-07-28"
                   },
                   "fee": {
                     "name": "City Tax",
@@ -3307,8 +3307,8 @@
                 },
                 {
                   "dateRange": {
-                    "startDate": "2022-07-28",
-                    "endDate": "2022-07-28"
+                    "arrival": "2022-07-28",
+                    "departure": "2022-07-28"
                   },
                   "fee": {
                     "name": "Occupancy Tax",
@@ -3363,8 +3363,8 @@
               "fees": [
                 {
                   "dateRange": {
-                    "startDate": "2022-07-28",
-                    "endDate": "2022-07-28"
+                    "arrival": "2022-07-28",
+                    "departure": "2022-07-28"
                   },
                   "fee": {
                     "name": "City Tax",
@@ -3376,8 +3376,8 @@
                 },
                 {
                   "dateRange": {
-                    "startDate": "2022-07-28",
-                    "endDate": "2022-07-28"
+                    "arrival": "2022-07-28",
+                    "departure": "2022-07-28"
                   },
                   "fee": {
                     "name": "Occupancy Tax",
@@ -3443,8 +3443,8 @@
               "fees": [
                 {
                   "dateRange": {
-                    "startDate": "2022-07-28",
-                    "endDate": "2022-07-28"
+                    "arrival": "2022-07-28",
+                    "departure": "2022-07-28"
                   },
                   "fee": {
                     "name": "City Tax",
@@ -3456,8 +3456,8 @@
                 },
                 {
                   "dateRange": {
-                    "startDate": "2022-07-28",
-                    "endDate": "2022-07-28"
+                    "arrival": "2022-07-28",
+                    "departure": "2022-07-28"
                   },
                   "fee": {
                     "name": "Occupancy Tax",

@@ -28,28 +28,28 @@ const cities = [
     id: '1',
     city: 'Berlin',
     image: berlin,
-    url: '/search?roomCount=1&adultCount=2&startDate=2022-09-12T00%3A00%3A00%2B02%3A00&endDate=2022-09-14T00%3A00%3A00%2B02%3A00&location=berlin',
+    url: '/search?roomCount=1&adultCount=2&arrival=2022-09-12T00%3A00%3A00%2B02%3A00&departure=2022-09-14T00%3A00%3A00%2B02%3A00&location=berlin',
     latlon: [52.5170365, 13.3888599]
   },
   {
     id: '2',
     city: 'Bogotá',
     image: bogota,
-    url: '/search?roomCount=1&adultCount=2&startDate=2022-10-07T00%3A00%3A00%2B02%3A00&endDate=2022-10-16T00%3A00%3A00%2B02%3A00&location=Bogota',
+    url: '/search?roomCount=1&adultCount=2&arrival=2022-10-07T00%3A00%3A00%2B02%3A00&departure=2022-10-16T00%3A00%3A00%2B02%3A00&location=Bogota',
     latlon: [4.6534649, -74.0836453]
   },
   {
     id: '3',
     city: 'Sydney',
     image: sydney,
-    url: '/search?roomCount=1&adultCount=2&startDate=2022-12-01T00%3A00%3A00%2B01%3A00&endDate=2022-12-04T00%3A00%3A00%2B01%3A00&location=Sydney',
+    url: '/search?roomCount=1&adultCount=2&arrival=2022-12-01T00%3A00%3A00%2B01%3A00&departure=2022-12-04T00%3A00%3A00%2B01%3A00&location=Sydney',
     latlon: [-33.8698439, 151.208284]
   },
   {
     id: '4',
     city: 'Taipei',
     image: taipei,
-    url: '/search?roomCount=1&adultCount=2&startDate=2022-12-02T00%3A00%3A00%2B01%3A00&endDate=2022-12-04T00%3A00%3A00%2B01%3A00&location=taipei',
+    url: '/search?roomCount=1&adultCount=2&arrival=2022-12-02T00%3A00%3A00%2B01%3A00&departure=2022-12-04T00%3A00%3A00%2B01%3A00&location=Taipei',
     latlon: [25.0375198, 121.5636796]
   }
 ];

@@ -52,8 +52,8 @@ type FormValuesProps = {
   roomCount: number | string;
   adultCount: number | string;
   dateRange: {
-    startDate: Date | null;
-    endDate: Date | null;
+    arrival: Date | null;
+    departure: Date | null;
     key: string;
   }[];
 };
@@ -79,8 +79,8 @@ export const SearchForm: React.FC = () => {
    * Logic in relation to handling the form
    */
   const defaultValues: FormValuesProps = useMemo(() => {
-    const startDateParams = searchParams.get('startDate');
-    const endDateParams = searchParams.get('endDate');
+    const startDateParams = searchParams.get('arrival');
+    const endDateParams = searchParams.get('departure');
 
     return {
       location: searchParams.get('location') || '',
@@ -88,8 +88,8 @@ export const SearchForm: React.FC = () => {
       roomCount: Number(searchParams.get('roomCount')) || 1,
       dateRange: [
         {
-          startDate: startDateParams ? parseISO(startDateParams) : null,
-          endDate: endDateParams ? parseISO(endDateParams) : null,
+          arrival: startDateParams ? parseISO(startDateParams) : null,
+          departure: endDateParams ? parseISO(endDateParams) : null,
           key: 'selection'
         }
       ]
@@ -109,14 +109,14 @@ export const SearchForm: React.FC = () => {
 
   const hasValidationErrors = Object.keys(errors).length != 0;
   const { roomCount, adultCount, dateRange, location } = values;
-  const startDate = dateRange[0].startDate && convertToLocalTime(dateRange[0].startDate);
-  const endDate = dateRange[0].endDate && convertToLocalTime(dateRange[0].endDate);
+  const arrival = dateRange[0].arrival && convertToLocalTime(dateRange[0].arrival);
+  const departure = dateRange[0].departure && convertToLocalTime(dateRange[0].departure);
   /**
    * Logic in relation to executing the query
    */
   const { refetch, isFetching, error } = useAccommodationsAndOffers({
-    arrival: startDate,
-    departure: endDate,
+    arrival: arrival,
+    departure: departure,
     adultCount: Number(adultCount),
     location: location,
     roomCount: Number(roomCount)
@@ -124,12 +124,12 @@ export const SearchForm: React.FC = () => {
 
   const onSubmit = useCallback(() => {
     //TODO: update search params when submitting the form
-    if (dateRange[0].startDate !== null && dateRange[0].endDate !== null) {
+    if (dateRange[0].arrival !== null && dateRange[0].departure !== null) {
       const params = {
         roomCount: roomCount.toString(),
         adultCount: adultCount.toString(),
-        startDate: formatISO(dateRange[0].startDate),
-        endDate: formatISO(dateRange[0].endDate),
+        arrival: formatISO(dateRange[0].arrival),
+        departure: formatISO(dateRange[0].departure),
         location
       };
 
@@ -149,8 +149,8 @@ export const SearchForm: React.FC = () => {
 
     const includesAllSearchParams =
       !!searchParams.get('location') &&
-      !!searchParams.get('endDate') &&
-      !!searchParams.get('startDate') &&
+      !!searchParams.get('departure') &&
+      !!searchParams.get('arrival') &&
       !!searchParams.get('roomCount') &&
       !!searchParams.get('roomCount') &&
       !!searchParams.get('adultCount');

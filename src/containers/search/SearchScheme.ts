@@ -13,8 +13,8 @@ export const SearchSchema = Yup.object().shape({
   dateRange: Yup.array()
     .of(
       Yup.object().shape({
-        startDate: Yup.date().required('Pick a start date'),
-        endDate: Yup.date().required('Pick a end date')
+        arrival: Yup.date().required('Pick a start date'),
+        departure: Yup.date().required('Pick a end date')
       })
     )
     .required('Should have a beginning and end date')

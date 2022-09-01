@@ -12,19 +12,19 @@ const formatDisplayDate = (date) => {
 };
 
 export const startDateDisplay = (dateRange) => {
-  const startDate = dateRange[0].startDate;
+  const arrival = dateRange[0].arrival;
 
-  if (!startDate) return 'Check-in';
+  if (!arrival) return 'Check-in';
 
-  return formatDisplayDate(startDate);
+  return formatDisplayDate(arrival);
 };
 
 export const endDateDisplay = (dateRange) => {
-  const startDate = dateRange[0].endDate;
+  const departure = dateRange[0].departure;
 
-  if (!startDate) return 'Check-out';
+  if (!departure) return 'Check-out';
 
-  return formatDisplayDate(startDate);
+  return formatDisplayDate(departure);
 };
 
 export const autocompleteData = [

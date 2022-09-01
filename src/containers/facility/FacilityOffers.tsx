@@ -9,7 +9,7 @@ import { daysBetween } from '../../utils/date';
 interface SearchCriteriaAndResult {
   rooms?: number;
   guests: number;
-  startDate?: string;
+  arrival?: string;
   nights: number;
   roomsAvailable?: number;
 }
@@ -22,12 +22,12 @@ const FacilityOffersTitle = ({
   rooms,
   roomsAvailable,
   guests,
-  startDate,
+  arrival,
   nights
 }: SearchCriteriaAndResult) => {
   const SubHeader = styled(Box)(() => ({}));
   const theme = useTheme();
-  const dateStr = startDate && new Date(startDate).toDateString();
+  const dateStr = arrival && new Date(arrival).toDateString();
 
   return (
     <Box marginBottom={theme.spacing(5)}>
@@ -57,7 +57,7 @@ export const FacilityOffers = forwardRef<HTMLDivElement>((_, ref) => {
       <FacilityOffersTitle
         rooms={latestQueryParams?.roomCount}
         guests={guests}
-        startDate={latestQueryParams?.arrival?.toUTCString()}
+        arrival={latestQueryParams?.arrival?.toUTCString()}
         nights={nights}
         roomsAvailable={accommodation?.offers?.length ?? 0}
       />
