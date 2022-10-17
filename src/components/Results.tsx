@@ -1,5 +1,5 @@
 import { Box, Button, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { createRef, useCallback, useEffect, useMemo } from 'react';
+import { createRef, useCallback, useEffect, useMemo, useState } from 'react';
 import { useAccommodationsAndOffers } from 'src/hooks/useAccommodationsAndOffers.tsx';
 import { SearchCard } from './SearchCard';
 import { useAppState } from '../store';
@@ -8,7 +8,8 @@ import { daysBetween } from '../utils/date';
 import { HEADER } from 'src/config/componentSizes';
 import { useSearchParams } from 'react-router-dom';
 import { accommodationEventTransform } from '../hooks/useAccommodationsAndOffers.tsx/helpers';
-import { useWindowScrollPositions } from 'src/hooks/useWindowScrollPositions';
+// import { useWindowScrollPositions } from 'src/hooks/useWindowScrollPositions';
+import Draggable from 'react-draggable';
 
 export enum ResultsMode {
   map,
@@ -16,17 +17,18 @@ export enum ResultsMode {
 }
 
 const StyledContainer = styled(Box)(({ theme }) => ({
-  position: 'absolute',
+  position: 'fixed',
   zIndex: '1',
   width: '100%',
   top: '90%',
+  height: '10%',
   left: 0,
   padding: theme.spacing(0, 2),
   backgroundColor: '#fff',
   transition: 'all 0.4s ease',
+  overflow: 'scroll',
 
   [theme.breakpoints.up('md')]: {
-    overflow: 'scroll',
     top: 110 + HEADER.MAIN_DESKTOP_HEIGHT,
     width: '20rem',
     padding: theme.spacing(0, 2),
@@ -54,10 +56,43 @@ const SelectedFacilityContainer = styled(Box)(({ theme }) => ({
   }
 }));
 
+const DragContainer = styled(Stack)(({ theme }) => ({
+  position: 'absolute',
+  top: 0,
+  zIndex: '2',
+  left: '50%',
+  transform: 'translateX(-50%)',
+  width: 'calc(100vw)',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: theme.spacing(1, 0),
+  background: theme.palette.background.default,
+  [theme.breakpoints.up('md')]: {
+    visibility: 'hidden'
+  }
+}));
+
 export const Results: React.FC = () => {
   const theme = useTheme();
   const showResultsNumber = useMediaQuery(theme.breakpoints.down('md'));
-  const { scrollY } = useWindowScrollPositions();
+
+  const [viewSx, setViewSx] = useState({});
+  const [mode, setMode] = useState<ResultsMode>(ResultsMode.map);
+
+  useEffect(() => {
+    if (mode === ResultsMode.map) {
+      setViewSx({
+        height: '10%',
+        top: '90%'
+      });
+    } else {
+      setViewSx({
+        height: '75%',
+        top: '25%'
+      });
+    }
+  }, [mode]);
 
   // to highlight a given event marker use url params "focusedEvent"
   const [searchParams] = useSearchParams();
@@ -65,7 +100,7 @@ export const Results: React.FC = () => {
     () => searchParams.get('focusedEvent') ?? '',
     [searchParams]
   );
-  const listView = scrollY > innerHeight - 600;
+
   // apply a callback function to transform returned accommodation objects
   const transformFn = useCallback(accommodationEventTransform(focusedEvent), [
     focusedEvent
@@ -80,9 +115,9 @@ export const Results: React.FC = () => {
     [latestQueryParams]
   );
 
-  const handleScrollToTop = () => {
-    window.scrollTo(0, 0);
-  };
+  // const handleScrollToTop = () => {
+  //   setMode(ResultsMode.map)
+  // };
 
   const SearchCardsRefs = useMemo(
     () =>
@@ -97,9 +132,9 @@ export const Results: React.FC = () => {
   useEffect(() => {
     SearchCardsRefs &&
       selectedFacilityId &&
-      listView &&
+      mode === ResultsMode.list &&
       SearchCardsRefs[selectedFacilityId]?.current?.scrollIntoView();
-  }, [selectedFacilityId, SearchCardsRefs]);
+  }, [selectedFacilityId, SearchCardsRefs, mode]);
 
   if (!accommodations || accommodations.length === 0) {
     return null;
@@ -110,7 +145,11 @@ export const Results: React.FC = () => {
     return accommodation.id === selectedFacilityId;
   });
 
-  const showSelectedFacility = !!(showResultsNumber && !listView && selectedFacility);
+  const showSelectedFacility = !!(
+    showResultsNumber &&
+    ResultsMode.map &&
+    selectedFacility
+  );
 
   return (
     <>
@@ -124,24 +163,36 @@ export const Results: React.FC = () => {
           />
         </SelectedFacilityContainer>
       )}
-      <StyledContainer className="noScrollBar">
-        {showResultsNumber && (
-          <Stack direction="column" alignItems="center" justifyContent="center">
-            <Box
-              sx={{
-                justifySelf: 'center',
-                alignSelf: 'center',
-                background: 'black',
-                width: '10rem',
-                height: '4px',
-                borderRadius: '2px',
-                mt: theme.spacing(1)
-              }}
-            />
-            <Typography textAlign="center">{accommodations.length} stays</Typography>
-          </Stack>
-        )}
-        {showResultsNumber && listView && (
+      <StyledContainer sx={viewSx} className="noScrollBar">
+        <Draggable
+          axis="y"
+          handle=".handle"
+          position={{ x: 0, y: 0 }}
+          defaultPosition={{ x: 0, y: 0 }}
+          grid={[25, 25]}
+          scale={1}
+          onStart={() => console.log('onStart')}
+          onDrag={() => setMode(ResultsMode.list)}
+          onStop={() => console.log('onStop')}
+        >
+          <Box paddingTop={6}>
+            <DragContainer className="handle">
+              <Box
+                sx={{
+                  justifySelf: 'center',
+                  alignSelf: 'center',
+                  width: '10rem',
+                  background: 'black',
+                  height: '4px',
+                  borderRadius: '2px'
+                }}
+              />
+              <Typography textAlign="center">{accommodations.length} stays</Typography>
+            </DragContainer>
+          </Box>
+        </Draggable>
+
+        {showResultsNumber && mode === ResultsMode.list && (
           <Box
             position="fixed"
             bottom={theme.spacing(4)}
@@ -150,26 +201,24 @@ export const Results: React.FC = () => {
             marginLeft={'-32px'}
             zIndex={2}
           >
-            <Button variant="contained" onClick={() => handleScrollToTop()}>
+            <Button variant="contained" onClick={() => setMode(ResultsMode.map)}>
               Map
             </Button>
           </Box>
         )}
-        <Box sx={{ overflow: 'scroll' }}>
-          <Stack>
-            {!isFetching &&
-              accommodations.map((facility, idx) => (
-                <SearchCard
-                  key={facility.id}
-                  facility={facility}
-                  numberOfDays={numberOfDays}
-                  isSelected={facility.id === selectedFacilityId}
-                  ref={SearchCardsRefs[idx]}
-                  focusedEvent={facility.eventInfo}
-                />
-              ))}
-          </Stack>
-        </Box>
+        <Stack>
+          {!isFetching &&
+            accommodations.map((facility, idx) => (
+              <SearchCard
+                key={facility.id}
+                facility={facility}
+                numberOfDays={numberOfDays}
+                isSelected={facility.id === selectedFacilityId}
+                ref={SearchCardsRefs[idx]}
+                focusedEvent={facility.eventInfo}
+              />
+            ))}
+        </Stack>
       </StyledContainer>
     </>
   );
