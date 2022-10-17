@@ -43,6 +43,14 @@ const StyledContainer = styled(Box)(({ theme }) => ({
   }
 }));
 
+const ScrollableContainer = styled(Box)(({ theme }) => ({
+  height: '90%',
+  overflow: 'scroll',
+  [theme.breakpoints.up('md')]: {
+    height: '100%'
+  }
+}));
+
 const SelectedFacilityContainer = styled(Box)(({ theme }) => ({
   position: 'fixed',
   top: 'calc(89.5% - 132px)',
@@ -74,7 +82,7 @@ const DragContainer = styled(Stack)(({ theme }) => ({
 
 export const Results: React.FC = () => {
   const theme = useTheme();
-  const showResultsNumber = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobileView = useMediaQuery(theme.breakpoints.down('md'));
 
   const [viewSx, setViewSx] = useState({});
   const [mode, setMode] = useState<ResultsMode>(ResultsMode.map);
@@ -115,7 +123,7 @@ export const Results: React.FC = () => {
     [latestQueryParams]
   );
 
-  const handleSwitch = (e: MouseEvent) => {
+  const handleSwitch = (e) => {
     setDepth(e.screenY);
     if (depth > e.screenY) {
       setMode(ResultsMode.list);
@@ -152,11 +160,7 @@ export const Results: React.FC = () => {
     return accommodation.id === selectedFacilityId;
   });
 
-  const showSelectedFacility = !!(
-    showResultsNumber &&
-    ResultsMode.map &&
-    selectedFacility
-  );
+  const showSelectedFacility = !!(isMobileView && ResultsMode.map && selectedFacility);
 
   return (
     <>
@@ -180,7 +184,7 @@ export const Results: React.FC = () => {
           scale={1}
           onDrag={(e) => handleSwitch(e)}
         >
-          <Box paddingTop={6}>
+          <Box paddingTop={isMobileView ? 6 : 0}>
             <DragContainer className="handle">
               <Box
                 sx={{
@@ -197,7 +201,7 @@ export const Results: React.FC = () => {
           </Box>
         </Draggable>
 
-        {showResultsNumber && mode === ResultsMode.list && (
+        {isMobileView && mode === ResultsMode.list && (
           <Box
             position="fixed"
             bottom={theme.spacing(4)}
@@ -211,19 +215,21 @@ export const Results: React.FC = () => {
             </Button>
           </Box>
         )}
-        <Stack>
-          {!isFetching &&
-            accommodations.map((facility, idx) => (
-              <SearchCard
-                key={facility.id}
-                facility={facility}
-                numberOfDays={numberOfDays}
-                isSelected={facility.id === selectedFacilityId}
-                ref={SearchCardsRefs[idx]}
-                focusedEvent={facility.eventInfo}
-              />
-            ))}
-        </Stack>
+        <ScrollableContainer className="noScrollBar">
+          <Stack>
+            {!isFetching &&
+              accommodations.map((facility, idx) => (
+                <SearchCard
+                  key={facility.id}
+                  facility={facility}
+                  numberOfDays={numberOfDays}
+                  isSelected={facility.id === selectedFacilityId}
+                  ref={SearchCardsRefs[idx]}
+                  focusedEvent={facility.eventInfo}
+                />
+              ))}
+          </Stack>
+        </ScrollableContainer>
       </StyledContainer>
     </>
   );
