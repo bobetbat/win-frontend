@@ -8,7 +8,6 @@ import { daysBetween } from '../utils/date';
 import { HEADER } from 'src/config/componentSizes';
 import { useSearchParams } from 'react-router-dom';
 import { accommodationEventTransform } from '../hooks/useAccommodationsAndOffers.tsx/helpers';
-// import { useWindowScrollPositions } from 'src/hooks/useWindowScrollPositions';
 import Draggable from 'react-draggable';
 
 export enum ResultsMode {
@@ -79,6 +78,7 @@ export const Results: React.FC = () => {
 
   const [viewSx, setViewSx] = useState({});
   const [mode, setMode] = useState<ResultsMode>(ResultsMode.map);
+  const [depth, setDepth] = useState(0);
 
   useEffect(() => {
     if (mode === ResultsMode.map) {
@@ -115,9 +115,16 @@ export const Results: React.FC = () => {
     [latestQueryParams]
   );
 
-  // const handleScrollToTop = () => {
-  //   setMode(ResultsMode.map)
-  // };
+  const handleSwitch = (e: MouseEvent) => {
+    setDepth(e.screenY);
+    if (depth > e.screenY) {
+      setMode(ResultsMode.list);
+    }
+    if (depth < e.screenY) {
+      setMode(ResultsMode.map);
+    }
+    setDepth(e.screenY);
+  };
 
   const SearchCardsRefs = useMemo(
     () =>
@@ -171,9 +178,7 @@ export const Results: React.FC = () => {
           defaultPosition={{ x: 0, y: 0 }}
           grid={[25, 25]}
           scale={1}
-          onStart={() => console.log('onStart')}
-          onDrag={() => setMode(ResultsMode.list)}
-          onStop={() => console.log('onStop')}
+          onDrag={(e) => handleSwitch(e)}
         >
           <Box paddingTop={6}>
             <DragContainer className="handle">
